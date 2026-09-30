@@ -1,0 +1,78 @@
+{
+  "name": "genpark-managed-agent-fleet-lifecycle-supervisor-skill",
+  "version": "1.0.0",
+  "description": "Enterprise Managed Agent Fleet Lifecycle Supervisor (inspired by Tencent WorkBuddy & Anthropic Managed Agents). Orchestrates worker agent registration, capability-based task dispatch, continuous heartbeat telemetry, automated circuit breakers, and state checkpoint recovery.",
+  "tools": [
+    {
+      "name": "manage_agent_fleet",
+      "description": "Enterprise agent fleet supervision: register workers, dispatch tasks with capability routing, monitor heartbeat telemetry, trip circuit breakers, and retrieve cluster health.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "register_worker",
+              "dispatch_task",
+              "record_heartbeat",
+              "handle_task_result",
+              "trip_circuit_breaker",
+              "get_fleet_telemetry",
+              "drain_worker"
+            ],
+            "description": "Lifecycle action to perform."
+          },
+          "agent_id": {
+            "type": "string",
+            "description": "Unique agent identifier."
+          },
+          "role": {
+            "type": "string",
+            "description": "Agent functional role (e.g., 'DOCS_EXPERT', 'DATA_ANALYST')."
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of capability tags."
+          },
+          "max_concurrency": {
+            "type": "integer",
+            "description": "Max parallel tasks allowed."
+          },
+          "task_id": {
+            "type": "string",
+            "description": "Task identifier for dispatch or reporting."
+          },
+          "required_capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Capabilities required for task."
+          },
+          "task_payload": {
+            "type": "object",
+            "description": "Task execution details and context."
+          },
+          "status": {
+            "type": "string",
+            "description": "Worker status (IDLE, BUSY, DEGRADED, DRAINED, DEAD)."
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Whether reported task succeeded."
+          },
+          "error_message": {
+            "type": "string",
+            "description": "Error details if task failed."
+          }
+        },
+        "required": [
+          "action"
+        ]
+      }
+    }
+  ]
+}
